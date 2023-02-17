@@ -2,7 +2,7 @@
 Version 0.5.0: Proof-of-concept milestone
 
 README.md  
-Updated February 6, 2023
+Updated February 17, 2023
 
 IMPORTANT NOTE: THIS IS A WORK IN PROGRESS. Please read documentation carefully to determine what,
                 if anything, is considered permanent.
