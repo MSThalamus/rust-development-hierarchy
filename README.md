@@ -1,7 +1,7 @@
 # Rust Development Hierarchy
 Version 0.5.0: Proof-of-concept milestone
 
-README.md
+README.md  
 Updated February 6, 2023
 
 IMPORTANT NOTE: THIS IS A WORK IN PROGRESS. Please read documentation carefully to determine what,
@@ -91,7 +91,8 @@ Hierarchy (RDH) is offered within this light, not as a suggested course of actio
 to an end for developers who want to leverage the benefits of Rust even within problem spaces best
 modeled hierarchically.
 
-Gene DeClark - January 2023
+Gene DeClark  
+January 2023
 
 
 ## Goals
@@ -107,16 +108,15 @@ Gene DeClark - January 2023
    b. Developers who are extensively experienced in building type hierarchies within such
       inheritance-based languages can *produce* similar type hierarchies within Rust
 
-   While other, less familiar, means of representing type hierarchies have been suggested, it seems
-   that no consensus on their idiomatic representation has yet surfaced. (See, for example, this
-   forum [post].)
-
-[post]: https://users.rust-lang.org/t/how-to-model-inheritance-hierarchy/33380
-
 2. Adopt no *external* dependencies (at least for the initial milestones).
    * No external crates are leveraged within the RDH framework. Only std:: and our own bespoke
      crates are used.
 
+While other, less familiar, means of representing type hierarchies have been suggested, it seems
+that no consensus on their idiomatic representation has yet surfaced. (See, for example, this forum
+[post].)
+
+[post]: https://users.rust-lang.org/t/how-to-model-inheritance-hierarchy/33380
 
 ## Crates
 
@@ -140,7 +140,7 @@ Additional crates:
   * Also contains project documentation beyond this ReadMe.
 
 
-## Documentation:
+## Documentation
 
 Additional documentation is listed below in recommended reading order for each development role.
 These documents can all be found within the /docs folder.
