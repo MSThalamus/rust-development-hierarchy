@@ -97,11 +97,13 @@ Gene DeClark - January 2023
 ## Goals
 
 1. Provide a framework through which
+   
    a. Developers who are already familiar with consuming the inheritance features within
       programming languages such as C++ and C# can, in as familiar a manner as possible, *consume*
       Rust-based type hierarchies
       * including abstract instance representation, casting between interfaces implemented by an
         instance's concrete type, and casting from an interface to a concrete type
+   
    b. Developers who are extensively experienced in building type hierarchies within such
       inheritance-based languages can *produce* similar type hierarchies within Rust
 
@@ -111,7 +113,7 @@ Gene DeClark - January 2023
 
 [post]: https://users.rust-lang.org/t/how-to-model-inheritance-hierarchy/33380
 
-2. Adopt no *external* dependencies (at least for the initial commit).
+2. Adopt no *external* dependencies (at least for the initial milestones).
    * No external crates are leveraged within the RDH framework. Only std:: and our own bespoke
      crates are used.
 
@@ -175,7 +177,8 @@ These documents can all be found within the /docs folder.
   * API Reference for *type hierarchy* Consumers.md
     * API reference written to help developers implementing applications that consume bespoke type
       hierarchies
-    * *Specific document to be produced by those building such type hierarchies*
+    * *Placeholder* version title is "BASE API Reference for RDH Consumers.md"
+      * *Specific document to be produced by those building such type hierarchies*
   * Knowledge Base.md
     * Known issues, either under investigation or retained for tracking and informational reasons
   * Road Map.md
