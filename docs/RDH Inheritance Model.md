@@ -404,7 +404,7 @@ previous sections, however, because Rust supports composition but not type inher
 only support casting an interface instance back to its initially declared concrete type, and then
 only when that type is known at compile time.
 
-##### Invocations
+##### *Invocations*
 
   Example casts from C++:
   
@@ -423,7 +423,7 @@ only when that type is known at compile time.
   * `let car_mut = iconstruct_mut.as_concrete_mut::<Car>();`
 
 
-##### Native Rust Support
+##### *Native Rust Support*
 
 While Rust does natively support casts of this variety via their Any trait, its use comes with a
 eighty caveat: all types upon which such casts will be performed must be declared *'static*. Rust
@@ -437,7 +437,7 @@ lifetime known to the borrow checker and that each of these functions expresses 
 to the same underlying type instance, the lifetime to assign to the expressed reference seems
 clear.)
 
-##### Cast-and-dispatch Patterns
+##### *Cast-and-dispatch Patterns*
 
 As shown above, the ability to obtain a concrete type instance from an interface instance hinges
 upon knowing the underlying concrete type at compile time. This caveat likely appears more
@@ -472,7 +472,7 @@ downcasts.
 The following sections contain only brief descriptions of upcast and downcast functionality. Far
 more detailed information can be found within "Extenders' Handbook.md".
 
-##### Upcasts
+##### *Upcasts*
 
 Example casts from C#:
 
@@ -506,7 +506,7 @@ Both the RDH and (experimental) native Rust examples above provide the same outc
 performance. That being said, those new to Rust would be well served to embrace its native syntax
 whenever possible.
 
-##### Downcasts
+##### *Downcasts*
 
 Example casts from C++:
 
