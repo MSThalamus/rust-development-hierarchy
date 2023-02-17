@@ -1,7 +1,7 @@
 # Rust Development Hierarchy
 Version 0.5.0: Proof-of-concept milestone
 
-RDH Inheritance Model.md
+RDH Inheritance Model.md  
 Updated February 6, 2023
 
 IMPORTANT NOTE: THIS IS A WORK IN PROGRESS. Please read documentation carefully to determine what,
