@@ -91,8 +91,7 @@ Hierarchy (RDH) is offered within this light, not as a suggested course of actio
 to an end for developers who want to leverage the benefits of Rust even within problem spaces best
 modeled hierarchically.
 
-Gene DeClark
-(January 2023)
+Gene DeClark - January 2023
 
 
 ## Goals
