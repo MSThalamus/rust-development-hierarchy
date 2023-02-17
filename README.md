@@ -92,7 +92,6 @@ to an end for developers who want to leverage the benefits of Rust even within p
 modeled hierarchically.
 
 Gene DeClark
-
 January 2023 
 
 
