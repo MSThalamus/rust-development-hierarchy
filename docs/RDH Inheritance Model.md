@@ -8,8 +8,8 @@ IMPORTANT NOTE: THIS IS A WORK IN PROGRESS. Please read documentation carefully 
                 if anything, is considered permanent.
 
 NOTES:
-* Examples below are presented in terms of fictional type hierarchies, Character and Vehicle. They
-  are not meant to be taken as literal buildable code.
+* Examples below are presented in terms of the fictional type hierarchies Character and Vehicle.
+  They are not meant to be taken as literal buildable code.
 
 ## Overview
 
@@ -69,9 +69,10 @@ becomes critically important within the subject of type casting, discussed below
 For the sake of clarity, it's also important to keep in mind that in addition to the public
 interface traits implemented by each concrete type, several other traits are implemented behind the
 scenes. These include those necessary to separate the implementations of virtual functions from
-those of non-virtual functions, those necessary to support type introspection, and those required
-to support casting between public interfaces. These are covered in greater detail within the
-document "Extenders' Handbook.md."
+those of non-virtual functions, those needed to support type introspection, those necessary to
+support casting from a public interface back to the correct concrete type, and those required to
+support casting between public interfaces. These are covered in greater detail within the document
+"Extenders' Handbook.md."
 
 
 ## Access Modifiers
@@ -83,13 +84,13 @@ Using C# as a representative for inheritance-based languages:
 
 | Accessible Scope                        | C#                   | Rust             | Notes                                                                                |
 | --------------------------------------- | -------------------- | ---------------- | ------------------------------------------------------------------------------------ |
-| Universal                               | `public`             | `pub`            |                                                                                      |
-| Local                                   | `private`            | nothing          | "private" is always implicit in Rust<br />"Local" in Rust is a module, in C# a class |
+| Universal                               | `public`             | `pub`            | (none)                                                                              |
+| Local                                   | `private`            | (nothing)        | "private" is always implicit in Rust<br />"Local" in Rust is a module, in C# a class |
 | Current unit                            | `internal`           | `pub(crate)`     | "Unit" in Rust is a crate, in C# an assembly                                         |
-| Derived classes                         | `protected`          | N/A              | Rust has no concept of derived types                                                 |
-| Current unit -or-<br /> Derived classes | `protected internal` | N/A              | Rust has no concept of derived types                                                 |
+| Derived classes                         | `protected`          | N/A              | Rust has no native concept of derived types                                                 |
+| Current unit -or-<br /> Derived classes | `protected internal` | N/A              | Rust has no native concept of derived types                                                 |
 | Self and parent                         | N/A                  | `pub(super)`     | C# access is always by class or assembly                                             |
-| Self and (some) ancestors               | N/A                  | `pub(in *path*)` | C# access is always by class or assembly                                             |
+| Self and (some) ancestors               | N/A                  | `pub(in <path>)` | C# access is always by class or assembly                                             |
 
 Those familiar with inheritance-based languages will undoubtedly have noticed that Rust has no way
 of modeling the protected or protected internal access modifiers! While this gap in parity makes
@@ -117,14 +118,14 @@ its behavior is predictable and performant, *how* this black box accomplishes it
 immaterial.
 
 As developers, we rely on abstractions far more often than we may be aware. While the form and
-function of abstraction within the above example is fairly straightforward, many of the
-abstractions we leverage on a daily basis are so well hidden we simply take them for granted. One
-such abstraction, so well hidden it's practically invisible, lies in *casting*. Casting is an
-incredibly common operation when working with a type hierarchy. Groups of objects are commonly held
-within collections as instances of their least abstract common type. These collections are often
-processed by functions that only invoke operations defined at that level of abstraction or higher,
-but not always. Often, additional processing may be required for some objects depending upon one or
-more of their less abstract types. For example, all humanoid characters in a video game may be held
+function of abstraction within the above example is fairly obvious, many of the abstractions we
+leverage on a daily basis are so well hidden we simply take them for granted. One such abstraction,
+so well hidden it's practically invisible, lies in *casting*. Casting is an incredibly common
+operation when working with a type hierarchy. Groups of objects are commonly held within
+collections as instances of their least abstract common type. These collections are often processed
+by functions that only invoke operations defined at that level of abstraction or higher, but not
+always. Sometimes additional processing may be required for some objects depending upon one or more
+of their less abstract types. For example, all humanoid characters in a video game may be held
 within a single collection. During processing, all such characters may be instructed to proceed
 with their current animations, but *player* characters may require special processing to handle
 input events that may interrupt the animations they had been performing up to this point. The
@@ -153,7 +154,7 @@ documentation!) The sections below discuss the *types* of casts that are support
 types that are not supported, why they're not supported, and how to function within those
 limitations. Sections following this detail which casting *scenarios* are supported and how to
 invoke them as well as which casting scenarios can't be supported, why they can't be supported, and
-how to function within those limitations.
+how to function within *those* limitations.
 
 
 ### Types of Casts
@@ -340,34 +341,39 @@ Stable Channel, albeit with (possibly) less comfortable syntax. Further, this is
 supported within function parameter coercion-- all other conversions must be made through explicit
 casts before the function is invoked.
 
-##### Direct Invocations
+##### *Direct Invocations*
 
   Example casts from C#:
-    All Mutable:
-    * `var isedan = sedan as ISedan;`
-    * `var icar = sedan as ICar;`
+  
+  *mutable*
+  * `var isedan = sedan as ISedan;`
+  * `var icar = sedan as ICar;`
 
   Corresponding RDH casts (via the Thaumaturgy module's Transmutation component):
-    Immutable:
-    * `let isedan = sedan.as_isedan();`
-    * `let icar = sedan.as_icar();`
-    Mutable:
-    * `let isedan_mut = sedan_mut.as_isedan_mut();`
-    * `let icar_mut = sedan_mut.as_icar_mut();`
+  
+  *immutable*
+  * `let isedan = sedan.as_isedan();`
+  * `let icar = sedan.as_icar();`
+
+  *mutable*
+  * `let isedan_mut = sedan_mut.as_isedan_mut();`
+  * `let icar_mut = sedan_mut.as_icar_mut();`
 
   Corresponding native Rust casts:
-    Immutable:
-    * `let isedan = &sedan as &dyn ISedan;`
-    * `let icar = &sedan as &dyn ICar;`
-    Mutable:
-    * `let isedan_mut = &mut sedan_mut as &mut dyn ISedan;`
-    * `let icar_mut = &mut sedan_mut as &mut dyn ICar;`
+  
+  *immutable*
+  * `let isedan = &sedan as &dyn ISedan;`
+  * `let icar = &sedan as &dyn ICar;`
+  
+  *mutable:*
+  * `let isedan_mut = &mut sedan_mut as &mut dyn ISedan;`
+  * `let icar_mut = &mut sedan_mut as &mut dyn ICar;`
 
   Both the RDH and native Rust examples above provide the same outcome with similar performance.
   That being said, those new to Rust would be well served to embrace its native syntax whenever
   possible.
 
-##### Common Use Cases
+##### *Common Use Cases*
 
 While the direct invocation examples above are perfectly valid, they will not generally be seen
 within real world code. Instead, such casts are most commonly performed implicitly when collating
@@ -401,17 +407,20 @@ only when that type is known at compile time.
 ##### Invocations
 
   Example casts from C++:
-    All Mutable:
-    * `auto sedan = (Sedan)icar;`
-    * `auto car = (Car)iconstruct;`
+  
+  *mutable*
+  * `auto sedan = (Sedan)icar;`  
+  * `auto car = (Car)iconstruct;`
 
   Corresponding RDH casts (via the Thaumaturgy module's Necromancy component):
-    Immutable:
-    * `let sedan = icar.as_concrete::<Sedan>();`
-    * `let car = iconstruct.as_concrete::<Car>();`
-    Mutable:
-    * `let sedan_mut = icar_mut.as_concrete_mut::<Sedan>();`
-    * `let car_mut = iconstruct_mut.as_concrete_mut::<Car>();`
+  
+  *immutable*
+  * `let sedan = icar.as_concrete::<Sedan>();`
+  * `let car = iconstruct.as_concrete::<Car>();`  
+
+  *mutable*
+  * `let sedan_mut = icar_mut.as_concrete_mut::<Sedan>();`
+  * `let car_mut = iconstruct_mut.as_concrete_mut::<Car>();`
 
 
 ##### Native Rust Support
@@ -466,25 +475,30 @@ more detailed information can be found within "Extenders' Handbook.md".
 ##### Upcasts
 
 Example casts from C#:
-  All Mutable:
-  * `var isedan = ifull_size_sedan as ISedan;`
-  * `var icar = isedan as ICar;`
+
+*mutable*
+* `var isedan = ifull_size_sedan as ISedan;`
+* `var icar = isedan as ICar;`
 
 Corresponding RDH casts:
-  Immutable:
-  * `let isedan = ifull_size_sedan.as_isedan();`
-  * `let icar = isedan.as_icar();`
-  Mutable:
-  * `let isedan_mut = ifull_size_sedan_mut.as_isedan_mut();`
-  * `let icar_mut = isedan_mut.as_icar_mut();`
+
+*immutable*
+* `let isedan = ifull_size_sedan.as_isedan();`
+* `let icar = isedan.as_icar();`
+
+*mutable*
+* `let isedan_mut = ifull_size_sedan_mut.as_isedan_mut();`
+* `let icar_mut = isedan_mut.as_icar_mut();`
 
 Corresponding native Rust casts (Nightly Channel only):
-  Immutable:
-  * `let isedan = &ifull_size_sedan as &dyn ISedan;`
-  * `let icar = &isedan as &dyn ICar;`
-  Mutable:
-  * `let isedan_mut = &mut ifull_size_sedan_mut as &mut dyn ISedan;`
-  * `let icar_mut = &mut isedan_mut as &mut dyn ICar;`
+
+*immutable*
+* `let isedan = &ifull_size_sedan as &dyn ISedan;`
+* `let icar = &isedan as &dyn ICar;`
+
+*mutable*
+* `let isedan_mut = &mut ifull_size_sedan_mut as &mut dyn ISedan;`
+* `let icar_mut = &mut isedan_mut as &mut dyn ICar;`
 
 As upcasts always succeed, all of the above yield a bare reference to the requested type.
 
@@ -495,17 +509,20 @@ whenever possible.
 ##### Downcasts
 
 Example casts from C++:
-  All Mutable:
-  * `auto ifull_size_sedan = (IFullSizedSedan)isedan;`
-  * `auto isedan = (ISedan)icar;`
+
+*mutable*
+* `auto ifull_size_sedan = (IFullSizedSedan)isedan;`
+* `auto isedan = (ISedan)icar;`
 
 Corresponding RDH casts:
-  Immutable:
-  * `let ifull_size_sedan = isedan.as_ifull_sized_sedan();`
-  * `let isedan = icar.as_isedan()`
-  Mutable:
-  * `let ifull_size_sedan_mut = isedan_mut.as_ifull_sized_sedan_mut();`
-  * `let isedan_mut = icar_mut.as_isedan_mut()`
+
+*immutable*
+* `let ifull_size_sedan = isedan.as_ifull_sized_sedan();`
+* `let isedan = icar.as_isedan()`
+
+*mutable*
+* `let ifull_size_sedan_mut = isedan_mut.as_ifull_sized_sedan_mut();`
+* `let isedan_mut = icar_mut.as_isedan_mut()`
 
 As downcasts are runtime checked, they may fail. Because of this, all of the above yield an
 `Option<&T>` (or `Option<&mut T>`), where T is the type requested by the casting call. This
