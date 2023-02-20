@@ -1,5 +1,9 @@
 # Rust Development Hierarchy
+*A type inheritance framework for the Rust Programming Language*
+
 Version 0.5.0: Proof-of-concept milestone
+
+---
 
 README.md  
 Updated February 17, 2023
